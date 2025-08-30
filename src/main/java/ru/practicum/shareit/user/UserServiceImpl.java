@@ -1,4 +1,4 @@
-package ru.practicum.shareit.user.service;
+package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.user.dao.UserRepository;
 import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.dto.UserNewDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.utils.UserValidate;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,7 +26,7 @@ public class UserServiceImpl implements UserService {
     public Collection<UserDto> findAll() {
         return userRepository.findAll().stream()
                 .map(UserMapper::mapToDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     // Получение пользователя по id
@@ -37,48 +39,47 @@ public class UserServiceImpl implements UserService {
 
     // Добавление пользователя
     @Override
-    public UserDto create(UserDto userDto) {
-        User user = UserMapper.mapToUser(userDto);
-        UserValidate.validateForCreate(user);
-        checkUniqueEmail(userDto.getEmail());
-
-        User createdUser = userRepository.create(user);
+    public UserDto create(UserNewDto userNewDto) {
+        UserValidate.validateForCreate(userNewDto);
+        checkUniqueEmail(userNewDto.getEmail());
+        User user = UserMapper.mapToUser(userNewDto);
+        User createdUser = userRepository.save(user);
         return UserMapper.mapToDto(createdUser);
     }
 
     // Обновление пользователя
     @Override
-    public UserDto update(Long userId, UserDto userDto) {
+    public UserDto update(Long userId, UserNewDto userNewDto) {
         if (userId == null || userId <= 0) {
             throw new ValidationException("Некорректный ID пользователя");
         }
 
-        if (userDto == null) {
-            throw new ValidationException("Пользователь не может быть null");
-        }
+        UserValidate.validateForUpdate(userNewDto);
 
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID " + userId + " не найден"));
 
-        if (userDto.getName() != null) {
-            existingUser.setName(userDto.getName());
+        if (userNewDto.getName() != null) {
+            existingUser.setName(userNewDto.getName());
         }
 
-        if (userDto.getEmail() != null && !userDto.getEmail().equalsIgnoreCase(existingUser.getEmail())) {
-            checkUniqueEmail(userDto.getEmail());
-            existingUser.setEmail(userDto.getEmail());
+        if (userNewDto.getEmail() != null && !userNewDto.getEmail().equalsIgnoreCase(existingUser.getEmail())) {
+            checkUniqueEmail(userNewDto.getEmail());
+            existingUser.setEmail(userNewDto.getEmail());
         }
 
-        UserValidate.validateForEdit(existingUser);
-
-        User updatedUser = userRepository.update(userId, existingUser);
+        User updatedUser = userRepository.save(existingUser);
         return UserMapper.mapToDto(updatedUser);
     }
 
     // Удаление пользователя
     @Override
     public void delete(Long userId) {
-        userRepository.delete(userId);
+        if (!userRepository.existsById(userId)) {
+            new NotFoundException("Пользователь с Id:" + userId + "не найдена");
+        }
+
+        userRepository.deleteById(userId);
     }
 
     // Проверки уникальности email
