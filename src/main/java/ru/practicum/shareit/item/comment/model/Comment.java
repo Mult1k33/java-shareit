@@ -8,7 +8,7 @@ import ru.practicum.shareit.user.model.User;
 import java.time.Instant;
 
 @Entity
-@Table(name="comments", schema = "public")
+@Table(name = "comments", schema = "public")
 @Getter
 @Setter
 @ToString

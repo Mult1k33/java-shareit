@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 @ToString
 @Entity
-@Table(name="items")
+@Table(name = "items")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
