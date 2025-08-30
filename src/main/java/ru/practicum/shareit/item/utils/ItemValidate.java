@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.practicum.shareit.exception.ValidationException;
-import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.dto.ItemNewDto;
 
 /**
  * Утилитарный класс для валидации сущности Item
@@ -15,34 +15,33 @@ import ru.practicum.shareit.item.model.Item;
 public class ItemValidate {
 
     // Валидация при создании вещи
-    public static void validateForCreate(Item item) {
-        validateNotNull(item);
-        validateName(item.getName());
-        validateDescription(item.getDescription());
-        validateAvailability(item.getAvailable());
-        validateOwner(item.getOwnerId());
+    public static void validateForCreate(ItemNewDto itemNewDto) {
+        validateNotNull(itemNewDto);
+        validateName(itemNewDto.getName());
+        validateDescription(itemNewDto.getDescription());
+        validateAvailability(itemNewDto.getAvailable());
     }
 
     // Валидация при изменении вещи
-    public static void validateForUpdate(Item item) {
-        validateNotNull(item);
+    public static void validateForUpdate(ItemNewDto itemNewDto) {
+        validateNotNull(itemNewDto);
 
-        if (item.getName() != null) {
-            validateName(item.getName());
+        if (itemNewDto.getName() != null) {
+            validateName(itemNewDto.getName());
         }
 
-        if (item.getDescription() != null) {
-            validateDescription(item.getDescription());
+        if (itemNewDto.getDescription() != null) {
+            validateDescription(itemNewDto.getDescription());
         }
 
-        if (item.getAvailable() != null) {
-            validateAvailability(item.getAvailable());
+        if (itemNewDto.getAvailable() != null) {
+            validateAvailability(itemNewDto.getAvailable());
         }
     }
 
     // Вспомогательные методы для валидации полей Item
-    private static void validateNotNull(Item item) {
-        if (item == null) {
+    private static void validateNotNull(ItemNewDto itemNewDto) {
+        if (itemNewDto == null) {
             log.error("Попытка добавить или изменить null, а не вещь");
             throw new ValidationException("Вещь не может быть null");
         }
@@ -66,13 +65,6 @@ public class ItemValidate {
         if (available == null) {
             log.error("Попытка добавить вещь без статуса доступности");
             throw new ValidationException("Статус доступности вещи должен быть указан");
-        }
-    }
-
-    private static void validateOwner(Long ownerId) {
-        if (ownerId == null || ownerId <= 0) {
-            log.error("Попытка добавить вещь с некорректным Id владельца");
-            throw new ValidationException("Некорректный Id владельца");
         }
     }
 }
