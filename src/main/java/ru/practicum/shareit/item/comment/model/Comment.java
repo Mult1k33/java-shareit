@@ -1,4 +1,4 @@
-package ru.practicum.shareit.booking.model;
+package ru.practicum.shareit.item.comment.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,46 +7,45 @@ import ru.practicum.shareit.user.model.User;
 
 import java.time.Instant;
 
-/**
- * TODO Sprint add-bookings.
- */
 @Entity
-@Table(name = "bookings", schema = "public")
+@Table(name = "comments", schema = "public")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class Booking {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "start_date", nullable = false)
-    private Instant start;
-
-    @Column(name = "end_date", nullable = false)
-    private Instant end;
+    @Column(name = "text", nullable = false)
+    private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booker_id", nullable = false)
-    private User booker;
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private BookingStatus status;
+    @Column(name = "created", nullable = false)
+    private Instant created;
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Booking)) return false;
-        return id != null && id.equals(((Booking) o).getId());
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Comment)) {
+            return false;
+        }
+
+        return id != null && id.equals(((Comment) o).getId());
     }
 
     @Override
