@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     // Добавление пользователя
     @Override
     public UserDto create(UserNewDto userNewDto) {
-//        UserValidate.validateForCreate(userNewDto);
+        UserValidate.validateForCreate(userNewDto);
         checkUniqueEmail(userNewDto.getEmail());
         User user = UserMapper.mapToUser(userNewDto);
         User createdUser = userRepository.save(user);
