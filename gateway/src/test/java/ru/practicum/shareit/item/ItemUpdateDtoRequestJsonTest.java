@@ -24,12 +24,8 @@ public class ItemUpdateDtoRequestJsonTest {
         ItemUpdateDtoRequest dto = new ItemUpdateDtoRequest("Дрель", null,
                 false, null);
 
-        assertThat(json.write(dto)).isEqualToJson("""
-            {
-                "name": "Дрель",
-                "available": false
-            }
-            """);
+        assertThat(json.write(dto)).isEqualToJson("{\"name\":\"Дрель\"," +
+                "\"available\":false}");
     }
 
     // Тест сериализации с полными данными
@@ -38,14 +34,10 @@ public class ItemUpdateDtoRequestJsonTest {
         ItemUpdateDtoRequest dto = new ItemUpdateDtoRequest("Дрель", "Аккумуляторная дрель",
                 true, 123L);
 
-        assertThat(json.write(dto)).isEqualToJson("""
-            {
-                "name": "Дрель",
-                "description": "Аккумуляторная дрель",
-                "available": true,
-                "requestId": 123
-            }
-            """);
+        assertThat(json.write(dto)).isEqualToJson("{\"name\":\"Дрель\"," +
+                "\"description\":\"Аккумуляторная дрель\"," +
+                "\"available\":true," +
+                "\"requestId\":123}");
     }
 
     // Тест сериализации с null значениями
@@ -53,25 +45,17 @@ public class ItemUpdateDtoRequestJsonTest {
     public void serialize_shouldHandleNullValues() throws Exception {
         ItemUpdateDtoRequest dto = new ItemUpdateDtoRequest(null, null, null, null);
 
-        assertThat(json.write(dto)).isEqualToJson("""
-            {
-                "name": null,
-                "description": null,
-                "available": null,
-                "requestId": null
-            }
-            """);
+        assertThat(json.write(dto)).isEqualToJson("{\"name\":null," +
+                "\"description\":null," +
+                "\"available\":null," +
+                "\"requestId\":null}");
     }
 
     // Тест десериализации частичного обновления
     @Test
     public void deserialize_shouldParsePartialData() throws Exception {
-        String jsonContent = """
-            {
-                "name": "Дрель",
-                "available": false
-            }
-            """;
+        String jsonContent = "{\"name\":\"Дрель\"," +
+                "\"available\":false}";
 
         ItemUpdateDtoRequest result = json.parseObject(jsonContent);
 
@@ -84,14 +68,10 @@ public class ItemUpdateDtoRequestJsonTest {
     // Тест десериализации с полными данными
     @Test
     public void deserialize_shouldParseAllFields() throws Exception {
-        String jsonContent = """
-            {
-                "name": "Дрель",
-                "description": "Аккумуляторная дрель",
-                "available": true,
-                "requestId": 123
-            }
-            """;
+        String jsonContent = "{\"name\":\"Дрель\"," +
+                "\"description\":\"Аккумуляторная дрель\"," +
+                "\"available\":true," +
+                "\"requestId\":123}";
 
         ItemUpdateDtoRequest result = json.parseObject(jsonContent);
 
@@ -104,14 +84,10 @@ public class ItemUpdateDtoRequestJsonTest {
     // Тест десериализации с явными null значениями
     @Test
     public void deserialize_shouldHandleExplicitNulls() throws Exception {
-        String jsonContent = """
-            {
-                "name": null,
-                "description": null,
-                "available": null,
-                "requestId": null
-            }
-            """;
+        String jsonContent = "{\"name\":null," +
+                "\"description\":null," +
+                "\"available\":null," +
+                "\"requestId\":null}";
 
         ItemUpdateDtoRequest result = json.parseObject(jsonContent);
 

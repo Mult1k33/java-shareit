@@ -23,12 +23,8 @@ public class UserUpdateDtoRequestJsonTest {
     public void serialize_shouldHandleFullUpdate() throws Exception {
         UserUpdateDtoRequest dto = new UserUpdateDtoRequest("Новое имя", "new@mail.ru");
 
-        assertThat(json.write(dto)).isEqualToJson("""
-            {
-                "name": "Новое имя",
-                "email": "new@mail.ru"
-            }
-            """);
+        assertThat(json.write(dto)).isEqualToJson("{\"name\":\"Новое имя\"," +
+                "\"email\":\"new@mail.ru\"}");
     }
 
     // Тест сериализации частичного обновления (только имя)
@@ -36,11 +32,7 @@ public class UserUpdateDtoRequestJsonTest {
     public void serialize_shouldHandlePartialNameUpdate() throws Exception {
         UserUpdateDtoRequest dto = new UserUpdateDtoRequest("Только имя", null);
 
-        assertThat(json.write(dto)).isEqualToJson("""
-            {
-                "name": "Только имя"
-            }
-            """);
+        assertThat(json.write(dto)).isEqualToJson("{\"name\":\"Только имя\"}");
     }
 
     // Тест сериализации частичного обновления (только email)
@@ -48,22 +40,14 @@ public class UserUpdateDtoRequestJsonTest {
     public void serialize_shouldHandlePartialEmailUpdate() throws Exception {
         UserUpdateDtoRequest dto = new UserUpdateDtoRequest(null, "only@mail.ru");
 
-        assertThat(json.write(dto)).isEqualToJson("""
-            {
-                "email": "only@mail.ru"
-            }
-            """);
+        assertThat(json.write(dto)).isEqualToJson("{\"email\":\"only@mail.ru\"}");
     }
 
     // Тест десериализации полного обновления
     @Test
     public void deserialize_shouldParseFullUpdate() throws Exception {
-        String jsonContent = """
-            {
-                "name": "Новое имя",
-                "email": "new@mail.ru"
-            }
-            """;
+        String jsonContent = "{\"name\":\"Новое имя\"," +
+                "\"email\":\"new@mail.ru\"}";
 
         UserUpdateDtoRequest result = json.parseObject(jsonContent);
 
@@ -74,11 +58,7 @@ public class UserUpdateDtoRequestJsonTest {
     // Тест десериализации частичного обновления (только имя)
     @Test
     public void deserialize_shouldParsePartialNameUpdate() throws Exception {
-        String jsonContent = """
-            {
-                "name": "Только имя"
-            }
-            """;
+        String jsonContent = "{\"name\":\"Только имя\"}";
 
         UserUpdateDtoRequest result = json.parseObject(jsonContent);
 
@@ -89,11 +69,7 @@ public class UserUpdateDtoRequestJsonTest {
     // Тест десериализации частичного обновления (только email)
     @Test
     public void deserialize_shouldParsePartialEmailUpdate() throws Exception {
-        String jsonContent = """
-            {
-                "email": "only@mail.ru"
-            }
-            """;
+        String jsonContent = "{\"email\":\"only@mail.ru\"}";
 
         UserUpdateDtoRequest result = json.parseObject(jsonContent);
 
@@ -104,12 +80,7 @@ public class UserUpdateDtoRequestJsonTest {
     // Тест десериализации с null значениями
     @Test
     public void deserialize_shouldHandleNullValues() throws Exception {
-        String jsonContent = """
-            {
-                "name": null,
-                "email": null
-            }
-            """;
+        String jsonContent = "{\"name\":null,\"email\":null}";
 
         UserUpdateDtoRequest result = json.parseObject(jsonContent);
 
@@ -120,12 +91,7 @@ public class UserUpdateDtoRequestJsonTest {
     // Тест десериализации с пустыми полями
     @Test
     public void deserialize_shouldHandleEmptyFields() throws Exception {
-        String jsonContent = """
-            {
-                "name": "",
-                "email": ""
-            }
-            """;
+        String jsonContent = "{\"name\":\"\",\"email\":\"\"}";
 
         UserUpdateDtoRequest result = json.parseObject(jsonContent);
 

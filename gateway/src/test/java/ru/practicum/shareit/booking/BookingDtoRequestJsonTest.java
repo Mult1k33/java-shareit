@@ -50,13 +50,9 @@ public class BookingDtoRequestJsonTest {
     // Тест корректной десериализации JSON в объект
     @Test
     public void deserialize_shouldParseWithoutZ() throws Exception {
-        String jsonContent = """
-                {
-                    "itemId": 1,
-                    "start": "2024-01-01T10:00:00",
-                    "end": "2024-01-02T10:00:00"
-                }
-                """;
+        String jsonContent = "{\"itemId\":1," +
+                "\"start\":\"2024-01-01T10:00:00\"," +
+                "\"end\":\"2024-01-02T10:00:00\"}";
 
         BookingDtoRequest result = json.parse(jsonContent).getObject();
 
@@ -68,13 +64,9 @@ public class BookingDtoRequestJsonTest {
     // Тест проверяет обработку некорректного формата даты(InvalidFormatException)
     @Test
     public void deserialize_shouldThrowExceptionForInvalidDateFormat() throws Exception {
-        String jsonContent = """
-                {
-                    "itemId": 1,
-                    "start": "2024-01-01T10:00:00Z",
-                    "end": "2024-01-02T10:00:00"
-                }
-                """;
+        String jsonContent = "{\"itemId\":1," +
+                "\"start\":\"2024-01-01T10:00:00Z\"," +
+                "\"end\":\"2024-01-02T10:00:00\"}";
 
         assertThatThrownBy(() -> json.parse(jsonContent))
                 .isInstanceOf(InvalidFormatException.class);
@@ -83,13 +75,9 @@ public class BookingDtoRequestJsonTest {
     // Тест проверяет обработку некорректного формата числового поля(InvalidFormatException)
     @Test
     public void deserialize_shouldThrowExceptionForInvalidItemIdFormat() throws Exception {
-        String jsonContent = """
-                {
-                    "itemId": "not_a_number",
-                    "start": "2024-01-01T10:00:00",
-                    "end": "2024-01-02T10:00:00"
-                }
-                """;
+        String jsonContent = "{\"itemId\":\"not_a_number\"," +
+                "\"start\":\"2024-01-01T10:00:00\"," +
+                "\"end\":\"2024-01-02T10:00:00\"}";
 
         assertThatThrownBy(() -> json.parse(jsonContent))
                 .isInstanceOf(InvalidFormatException.class);

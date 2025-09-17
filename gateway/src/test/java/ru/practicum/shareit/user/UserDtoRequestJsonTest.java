@@ -23,23 +23,15 @@ public class UserDtoRequestJsonTest {
     public void serialize_shouldProduceCorrectJson() throws Exception {
         UserDtoRequest dto = new UserDtoRequest("Иван Иванов", "ivan@mail.ru");
 
-        assertThat(json.write(dto)).isEqualToJson("""
-            {
-                "name": "Иван Иванов",
-                "email": "ivan@mail.ru"
-            }
-            """);
+        assertThat(json.write(dto)).isEqualToJson("{\"name\":\"Иван Иванов\"," +
+                "\"email\":\"ivan@mail.ru\"}");
     }
 
     // Тест десериализации JSON в объект
     @Test
     public void deserialize_shouldParseJsonCorrectly() throws Exception {
-        String jsonContent = """
-            {
-                "name": "Иван Иванов",
-                "email": "ivan@mail.ru"
-            }
-            """;
+        String jsonContent = "{\"name\":\"Иван Иванов\"," +
+                "\"email\":\"ivan@mail.ru\"}";
 
         UserDtoRequest result = json.parseObject(jsonContent);
 
@@ -52,23 +44,13 @@ public class UserDtoRequestJsonTest {
     public void serialize_shouldHandleEmptyStrings() throws Exception {
         UserDtoRequest dto = new UserDtoRequest("", "");
 
-        assertThat(json.write(dto)).isEqualToJson("""
-            {
-                "name": "",
-                "email": ""
-            }
-            """);
+        assertThat(json.write(dto)).isEqualToJson("{\"name\":\"\",\"email\":\"\"}");
     }
 
     // Тест десериализации с пустыми строками
     @Test
     public void deserialize_shouldParseEmptyStrings() throws Exception {
-        String jsonContent = """
-            {
-                "name": "",
-                "email": ""
-            }
-            """;
+        String jsonContent = "{\"name\":\"\",\"email\":\"\"}";
 
         UserDtoRequest result = json.parseObject(jsonContent);
 
