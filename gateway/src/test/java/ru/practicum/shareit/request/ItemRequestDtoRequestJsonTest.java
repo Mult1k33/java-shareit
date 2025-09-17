@@ -24,20 +24,20 @@ public class ItemRequestDtoRequestJsonTest {
         ItemRequestDtoRequest dto = new ItemRequestDtoRequest("Нужна дрель");
 
         assertThat(json.write(dto)).isEqualToJson("""
-                {
-                    "description": "Нужна дрель"
-                }
-                """);
+            {
+                "description": "Нужна дрель"
+            }
+            """);
     }
 
     // Тест десериализации JSON в объект
     @Test
     public void deserialize_shouldParseJsonCorrectly() throws Exception {
         String jsonContent = """
-                {
-                    "description": "Нужна дрель"
-                }
-                """;
+            {
+                "description": "Нужна дрель"
+            }
+            """;
 
         ItemRequestDtoRequest result = json.parseObject(jsonContent);
 
@@ -50,20 +50,20 @@ public class ItemRequestDtoRequestJsonTest {
         ItemRequestDtoRequest dto = new ItemRequestDtoRequest("");
 
         assertThat(json.write(dto)).isEqualToJson("""
-                {
-                    "description": ""
-                }
-                """);
+            {
+                "description": ""
+            }
+            """);
     }
 
     // Тест десериализации с пустой строкой
     @Test
     public void deserialize_shouldParseEmptyString() throws Exception {
         String jsonContent = """
-                {
-                    "description": ""
-                }
-                """;
+            {
+                "description": ""
+            }
+            """;
 
         ItemRequestDtoRequest result = json.parseObject(jsonContent);
 
@@ -76,20 +76,20 @@ public class ItemRequestDtoRequestJsonTest {
         ItemRequestDtoRequest dto = new ItemRequestDtoRequest(null);
 
         assertThat(json.write(dto)).isEqualToJson("""
-                {
-                    "description": null
-                }
-                """);
+            {
+                "description": null
+            }
+            """);
     }
 
     // Тест десериализации с null значением
     @Test
     public void deserialize_shouldParseNullValue() throws Exception {
         String jsonContent = """
-                {
-                    "description": null
-                }
-                """;
+            {
+                "description": null
+            }
+            """;
 
         ItemRequestDtoRequest result = json.parseObject(jsonContent);
 

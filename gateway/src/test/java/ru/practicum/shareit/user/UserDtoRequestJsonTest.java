@@ -24,22 +24,22 @@ public class UserDtoRequestJsonTest {
         UserDtoRequest dto = new UserDtoRequest("Иван Иванов", "ivan@mail.ru");
 
         assertThat(json.write(dto)).isEqualToJson("""
-                {
-                    "name": "Иван Иванов",
-                    "email": "ivan@mail.ru"
-                }
-                """);
+            {
+                "name": "Иван Иванов",
+                "email": "ivan@mail.ru"
+            }
+            """);
     }
 
     // Тест десериализации JSON в объект
     @Test
     public void deserialize_shouldParseJsonCorrectly() throws Exception {
         String jsonContent = """
-                {
-                    "name": "Иван Иванов",
-                    "email": "ivan@mail.ru"
-                }
-                """;
+            {
+                "name": "Иван Иванов",
+                "email": "ivan@mail.ru"
+            }
+            """;
 
         UserDtoRequest result = json.parseObject(jsonContent);
 
@@ -53,22 +53,22 @@ public class UserDtoRequestJsonTest {
         UserDtoRequest dto = new UserDtoRequest("", "");
 
         assertThat(json.write(dto)).isEqualToJson("""
-                {
-                    "name": "",
-                    "email": ""
-                }
-                """);
+            {
+                "name": "",
+                "email": ""
+            }
+            """);
     }
 
     // Тест десериализации с пустыми строками
     @Test
     public void deserialize_shouldParseEmptyStrings() throws Exception {
         String jsonContent = """
-                {
-                    "name": "",
-                    "email": ""
-                }
-                """;
+            {
+                "name": "",
+                "email": ""
+            }
+            """;
 
         UserDtoRequest result = json.parseObject(jsonContent);
 

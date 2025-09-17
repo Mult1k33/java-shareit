@@ -25,11 +25,11 @@ public class ItemUpdateDtoRequestJsonTest {
                 false, null);
 
         assertThat(json.write(dto)).isEqualToJson("""
-                {
-                    "name": "Дрель",
-                    "available": false
-                }
-                """);
+            {
+                "name": "Дрель",
+                "available": false
+            }
+            """);
     }
 
     // Тест сериализации с полными данными
@@ -39,13 +39,13 @@ public class ItemUpdateDtoRequestJsonTest {
                 true, 123L);
 
         assertThat(json.write(dto)).isEqualToJson("""
-                {
-                    "name": "Дрель",
-                    "description": "Аккумуляторная дрель",
-                    "available": true,
-                    "requestId": 123
-                }
-                """);
+            {
+                "name": "Дрель",
+                "description": "Аккумуляторная дрель",
+                "available": true,
+                "requestId": 123
+            }
+            """);
     }
 
     // Тест сериализации с null значениями
@@ -54,24 +54,24 @@ public class ItemUpdateDtoRequestJsonTest {
         ItemUpdateDtoRequest dto = new ItemUpdateDtoRequest(null, null, null, null);
 
         assertThat(json.write(dto)).isEqualToJson("""
-                {
-                    "name": null,
-                    "description": null,
-                    "available": null,
-                    "requestId": null
-                }
-                """);
+            {
+                "name": null,
+                "description": null,
+                "available": null,
+                "requestId": null
+            }
+            """);
     }
 
     // Тест десериализации частичного обновления
     @Test
     public void deserialize_shouldParsePartialData() throws Exception {
         String jsonContent = """
-                {
-                    "name": "Дрель",
-                    "available": false
-                }
-                """;
+            {
+                "name": "Дрель",
+                "available": false
+            }
+            """;
 
         ItemUpdateDtoRequest result = json.parseObject(jsonContent);
 
@@ -85,13 +85,13 @@ public class ItemUpdateDtoRequestJsonTest {
     @Test
     public void deserialize_shouldParseAllFields() throws Exception {
         String jsonContent = """
-                {
-                    "name": "Дрель",
-                    "description": "Аккумуляторная дрель",
-                    "available": true,
-                    "requestId": 123
-                }
-                """;
+            {
+                "name": "Дрель",
+                "description": "Аккумуляторная дрель",
+                "available": true,
+                "requestId": 123
+            }
+            """;
 
         ItemUpdateDtoRequest result = json.parseObject(jsonContent);
 
@@ -105,13 +105,13 @@ public class ItemUpdateDtoRequestJsonTest {
     @Test
     public void deserialize_shouldHandleExplicitNulls() throws Exception {
         String jsonContent = """
-                {
-                    "name": null,
-                    "description": null,
-                    "available": null,
-                    "requestId": null
-                }
-                """;
+            {
+                "name": null,
+                "description": null,
+                "available": null,
+                "requestId": null
+            }
+            """;
 
         ItemUpdateDtoRequest result = json.parseObject(jsonContent);
 

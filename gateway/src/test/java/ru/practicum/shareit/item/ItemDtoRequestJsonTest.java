@@ -35,13 +35,12 @@ public class ItemDtoRequestJsonTest {
     @Test
     public void deserialize_shouldParseJsonCorrectly() throws Exception {
         String jsonContent = """
-                {
-                    "name": "Дрель",
-                    "description": "Аккумуляторная дрель",
-                    "available": true,
-                    "requestId": 123
-                }
-                """;
+            {    "name": "Дрель",
+                 "description": "Аккумуляторная дрель",
+                 "available": true,
+                 "requestId": 123
+            }
+            """;
 
         ItemDtoRequest result = json.parseObject(jsonContent);
 
@@ -67,12 +66,11 @@ public class ItemDtoRequestJsonTest {
     @Test
     public void deserialize_shouldHandleMissingRequestId() throws Exception {
         String jsonContent = """
-                {
-                    "name": "Дрель",
-                    "description": "Аккумуляторная дрель",
-                    "available": true
-                }
-                """;
+            {    "name": "Дрель",
+                 "description": "Аккумуляторная дрель",
+                 "available": true
+            }
+            """;
 
         ItemDtoRequest result = json.parseObject(jsonContent);
 
