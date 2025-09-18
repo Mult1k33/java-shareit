@@ -207,6 +207,7 @@ public class ItemRequestControllerTest {
         verify(itemRequestClient, never()).getRequestById(anyLong(), anyLong());
     }
 
+    // Вспомогательный метод для настройки мок-объектов
     private void setupDefaultSuccessfulMocks() {
         when(itemRequestClient.createRequest(anyLong(), any(ItemRequestDtoRequest.class)))
                 .thenReturn(ResponseEntity.status(HttpStatus.CREATED).build());

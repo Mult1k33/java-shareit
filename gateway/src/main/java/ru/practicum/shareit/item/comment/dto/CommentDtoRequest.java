@@ -10,5 +10,5 @@ import lombok.*;
 public class CommentDtoRequest {
 
     @NotBlank
-    String text;
+    private String text;
 }

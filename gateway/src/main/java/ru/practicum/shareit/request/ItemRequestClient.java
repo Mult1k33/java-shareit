@@ -3,12 +3,15 @@ package ru.practicum.shareit.request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.shareit.client.BaseClient;
-import ru.practicum.shareit.request.dto.ItemRequestDtoRequest;
+import ru.practicum.shareit.request.dto.*;
+
+import java.util.List;
 
 @Service
 public class ItemRequestClient extends BaseClient {
@@ -25,19 +28,23 @@ public class ItemRequestClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> createRequest(Long userId, ItemRequestDtoRequest requestDtoRequest) {
-        return post("", userId, requestDtoRequest);
+    public ResponseEntity<ItemRequestDtoResponse> createRequest(Long userId, ItemRequestDtoRequest requestDtoRequest) {
+        return post("", userId, requestDtoRequest, ItemRequestDtoResponse.class);
     }
 
-    public ResponseEntity<Object> getAllRequests(Long userId) {
-        return get("/all", userId);
+    public ResponseEntity<List<ItemRequestDtoResponse>> getAllRequests(Long userId) {
+        ParameterizedTypeReference<List<ItemRequestDtoResponse>> typeRef =
+                new ParameterizedTypeReference<List<ItemRequestDtoResponse>>() {};
+        return get("/all", userId, typeRef);
     }
 
-    public ResponseEntity<Object> getRequestByUser(Long userId) {
-        return get("", userId);
+    public ResponseEntity<List<ItemRequestDtoResponse>> getRequestByUser(Long userId) {
+        ParameterizedTypeReference<List<ItemRequestDtoResponse>> typeRef =
+                new ParameterizedTypeReference<List<ItemRequestDtoResponse>>() {};
+        return get("", userId, typeRef);
     }
 
-    public ResponseEntity<Object> getRequestById(Long userId, Long requestId) {
-        return get("/" + requestId, userId);
+    public ResponseEntity<ItemRequestDtoResponse> getRequestById(Long userId, Long requestId) {
+        return get("/" + requestId, userId, ItemRequestDtoResponse.class);
     }
 }

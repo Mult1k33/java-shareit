@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.request.dto.ItemRequestDtoRequest;
+import ru.practicum.shareit.request.dto.*;
+
+import java.util.List;
 
 @Slf4j
 @Validated
@@ -19,28 +21,32 @@ public class ItemRequestController {
     private final ItemRequestClient itemRequestClient;
 
     @PostMapping
-    public ResponseEntity<Object> create(@RequestHeader("X-Sharer-User-Id") @Positive Long userId,
-                                         @RequestBody @Valid ItemRequestDtoRequest itemRequestDtoRequest) {
+    public ResponseEntity<ItemRequestDtoResponse> create(
+            @RequestHeader("X-Sharer-User-Id") @Positive Long userId,
+            @RequestBody @Valid ItemRequestDtoRequest itemRequestDtoRequest) {
         log.info("POST / requests | userId: {} | Создание заявки: '{}'",
                 userId, itemRequestDtoRequest.getDescription());
         return itemRequestClient.createRequest(userId, itemRequestDtoRequest);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Object> getAllRequests(@RequestHeader("X-Sharer-User-Id") @Positive Long userId) {
+    public ResponseEntity<List<ItemRequestDtoResponse>> getAllRequests(
+            @RequestHeader("X-Sharer-User-Id") @Positive Long userId) {
         log.info("GET / requests");
         return itemRequestClient.getAllRequests(userId);
     }
 
     @GetMapping
-    public ResponseEntity<Object> getRequestByUser(@RequestHeader("X-Sharer-User-Id") @Positive Long userId) {
+    public ResponseEntity<List<ItemRequestDtoResponse>> getRequestByUser(
+            @RequestHeader("X-Sharer-User-Id") @Positive Long userId) {
         log.info("GET / requests / requestor {}", userId);
         return itemRequestClient.getRequestByUser(userId);
     }
 
     @GetMapping("/{requestId}")
-    public ResponseEntity<Object> getRequestById(@RequestHeader("X-Sharer-User-Id") @Positive Long userId,
-                                                 @PathVariable @Positive Long requestId) {
+    public ResponseEntity<ItemRequestDtoResponse> getRequestById(
+            @RequestHeader("X-Sharer-User-Id") @Positive Long userId,
+            @PathVariable @Positive Long requestId) {
         log.info("GET / request {} / user {}", requestId, userId);
         return itemRequestClient.getRequestById(userId, requestId);
     }

@@ -353,6 +353,7 @@ public class ItemControllerTest {
                 .thenReturn(ResponseEntity.status(HttpStatus.OK).build());
 
         // Для void метода deleteItem
-        Mockito.doNothing().when(itemClient).deleteItem(anyLong(), anyLong());
+        when(itemClient.deleteItem(anyLong(), anyLong()))
+                .thenReturn(ResponseEntity.status(HttpStatus.OK).build());
     }
 }

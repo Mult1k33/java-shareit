@@ -9,6 +9,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.*;
 
+import java.util.List;
+
 @Slf4j
 @Validated
 @RestController
@@ -19,33 +21,33 @@ public class UserController {
     private final UserClient userClient;
 
     @GetMapping
-    public ResponseEntity<Object> getAllUsers() {
+    public ResponseEntity<List<UserDtoResponse>> getAllUsers() {
         log.info("GET / users");
         return userClient.getAllUsers();
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Object> getByUserId(@PathVariable @Positive Long userId) {
+    public ResponseEntity<UserDtoResponse> getByUserId(@PathVariable @Positive Long userId) {
         log.info("GET / users / {}", userId);
         return userClient.getUserById(userId);
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@RequestBody @Valid UserDtoRequest userDtoRequest) {
+    public ResponseEntity<UserDtoResponse> create(@RequestBody @Valid UserDtoRequest userDtoRequest) {
         log.info("POST / users / {} / {}", userDtoRequest.getName(), userDtoRequest.getEmail());
         return userClient.createUser(userDtoRequest);
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<Object> update(@PathVariable @Positive Long userId,
-                                         @RequestBody @Valid UserUpdateDtoRequest userUpdateDtoRequest) {
+    public ResponseEntity<UserDtoResponse> update(@PathVariable @Positive Long userId,
+                                                  @RequestBody @Valid UserUpdateDtoRequest userUpdateDtoRequest) {
         log.info("PATCH / users / {}", userId);
         return userClient.updateUser(userId, userUpdateDtoRequest);
     }
 
     @DeleteMapping("/{userId}")
-    public void delete(@PathVariable @Positive Long userId) {
+    public ResponseEntity<Void> delete(@PathVariable @Positive Long userId) {
         log.info("DELETE / users / {}", userId);
-        userClient.deleteUser(userId);
+        return userClient.deleteUser(userId);
     }
 }

@@ -218,6 +218,7 @@ public class UserControllerTest {
                 .thenReturn(ResponseEntity.status(HttpStatus.OK).build());
 
         // Для void метода deleteUser
-        Mockito.doNothing().when(userClient).deleteUser(anyLong());
+        when(userClient.deleteUser(anyLong()))
+                .thenReturn(ResponseEntity.status(HttpStatus.OK).build());
     }
 }
